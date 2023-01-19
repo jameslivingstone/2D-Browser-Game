@@ -1,0 +1,125 @@
+<!doctype html><html><head><style type="text/css">canvas {
+  background-color: rgb(90, 75, 156);
+}
+
+body{
+  margin:0 auto;
+  overflow: hidden;
+}</style></head><body><canvas id="canvas" width="2000" height="1000"></canvas>
+
+
+
+<script type="text/javascript">const canvas = document.getElementById("canvas");
+
+const ctx = canvas.getContext("2d");
+
+var player = new Image();
+
+player.src = "https://www.filepicker.io/api/file/8zvBlQyTR2O1Ctqlrakb"
+
+var x = 0;
+
+var y = 0;
+
+var key, keyState = 0;
+
+player.onload = function() {
+  ctx.drawImage(player, x, y);
+
+  ctx.fillRect(0, 0, 1000, 1000);
+}
+
+document.onkeydown = function(e) {
+  keyState = "keydown";
+  key = e.key;
+}
+
+document.onkeyup = function(e) {
+  keyState = "keyup";
+}
+
+function chooseRandom(min, max) {
+  return Math.random() * (max - min) + min
+}
+
+var obstacles = [
+  {
+    x: chooseRandom(500,1500),
+    y: chooseRandom(0, 500),
+    width: 50,
+    height: 200
+  },
+  {
+    x: chooseRandom(500, 1500),
+    y: chooseRandom(0, 500),
+    width: 50,
+    height: 100
+  },
+  {
+    x: chooseRandom(500, 1500),
+    y: chooseRandom(00, 500),
+    width: 50,
+    height: 200
+  },
+  {
+    x: chooseRandom(500, 1500),
+    y: chooseRandom(0, 500),
+    width: 50,
+    height: 400
+  }
+]
+
+function handleCollision(obstacle) {
+
+  const playerLeft = x;
+  const playerRight = x + 50;
+  const playerTop = y;
+  const playerBottom = y + 100;
+
+  const obstacleLeft = obstacle.x;
+  const obstacleRight = obstacle.x + obstacle.width;
+  const obstacleTop = obstacle.y;
+  const obstacleBottom = obstacle.y + obstacle.height;
+
+  if(playerBottom < obstacleTop ||
+     playerTop > obstacleBottom ||
+     playerRight < obstacleLeft ||
+     playerLeft > obstacleRight 
+     ) {
+       return false;
+     }
+     return true;
+}
+
+setInterval(function() {
+
+  if (key === "w") {
+    y -= 1;
+  }
+  if (key ==="s"){
+    y +=1;
+  }
+ 
+  ctx.clearRect(0, 0, 2000, 2000);
+  ctx.drawImage(player, x, y);
+
+  ctx.fillStyle = "darkblue";
+  
+  for (var index = 0; index < obstacles.length; index++) {
+
+    const obstacle = obstacles[index];
+    obstacle.x -= 1;
+
+    if(obstacle.x < -100) {
+      obstacle.x = 1000;
+    }
+    ctx.fillRect(obstacle.x, obstacle.y,
+      obstacle.width, obstacle.height);
+
+    if (handleCollision(obstacle)) {
+      location.reload();
+    }
+
+    }
+
+}, 5);</script></body><html>
