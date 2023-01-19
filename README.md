@@ -21,4 +21,4 @@ Mammoth Interactive
 Filestack
 
 # See It Live
-https://jameslivingstone.github.io/2D-Browser-Game/
+[2D Browser Game]https://jameslivingstone.github.io/2D-Browser-Game/
